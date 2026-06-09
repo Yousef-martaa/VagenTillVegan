@@ -40,6 +40,8 @@ exports.getRestaurants = async (req, res) => {
 
     const restaurants = await Restaurant.find(query);
 
+    
+
     res.json(restaurants);
   } catch (error) {
     res.status(500).json({ error: error.message });
