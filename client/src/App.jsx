@@ -4,6 +4,8 @@ import RestaurantList from './components/RestaurantList';
 import logo from './assets/logo.png';
 import UserForm from './components/UserForm';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 function App() {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,8 +28,8 @@ function App() {
     if (!isAuto) setLoading(true);
 
     const url = minRating
-      ? `http://localhost:3000/api/restaurants?minRating=${minRating}`
-      : `http://localhost:3000/api/restaurants`;
+      ? `${API_URL}/api/restaurants?minRating=${minRating}`
+      : `${API_URL}/api/restaurants`;
 
     fetch(url)
       .then(res => res.json())
@@ -76,7 +78,7 @@ function App() {
     };
 
 
-    const res = await fetch('http://localhost:3000/api/restaurants', {
+    const res = await fetch(`${API_URL}/api/restaurants`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRestaurant)
@@ -108,7 +110,7 @@ function App() {
       return;
     }
 
-    const res = await fetch(`http://localhost:3000/api/reviews?restaurantId=${restaurantId}`);
+    const res = await fetch(`${API_URL}/api/reviews?restaurantId=${restaurantId}`);
     const data = await res.json();
 
     setReviews(prev => ({
@@ -118,7 +120,7 @@ function App() {
   };
 
   const deleteRestaurant = async (id) => {
-    await fetch(`http://localhost:3000/api/restaurants/${id}`, {
+    await fetch(`${API_URL}/api/restaurants/${id}`, {
       method: 'DELETE'
     });
 
@@ -140,7 +142,7 @@ function App() {
       googleMapsUrl: newUrl
     };
 
-    const res = await fetch(`http://localhost:3000/api/restaurants/${id}`, {
+    const res = await fetch(`${API_URL}/api/restaurants/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData)
@@ -227,7 +229,7 @@ function App() {
           <button className="top-btn" onClick={() => {
             setIsTopMode(true); // activate top mode
 
-            fetch('http://localhost:3000/api/restaurants/top?limit=3')
+            fetch(`${API_URL}/api/restaurants/top?limit=3`)
               .then(res => res.json())
               .then(data => setRestaurants(data));
           }}>
